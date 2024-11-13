@@ -2,8 +2,9 @@
   flex-basis: 69%;
 }
 
-.play-video video {
+.play-video iframe {
   width: 100%;
+  height: 37vw;
 }
 
 .play-video h3 {
@@ -145,4 +146,20 @@
   width: 20px;
   margin-right: 5px;
 
+}
+
+@media (max-width:900px) {
+  .play-video{
+    flex-basis: 100%; 
+  }
+  .play-video iframe{
+    width: 100%;
+    height: 50vh;
+  }
+  .video-description{
+    padding-left: 0 ;
+  }
+  .play-video .play-video-info span{
+    padding: 15px 15px 0 0;
+  }
 }

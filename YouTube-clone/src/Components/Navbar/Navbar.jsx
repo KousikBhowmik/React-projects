@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import assets from "../../Assets/assets.js";
+import { Link } from "react-router-dom";
 const Navbar = ({ setSidebar }) => {
+
+    
+
   return (
     <div>
       <nav className="flex-div">
@@ -13,7 +17,9 @@ const Navbar = ({ setSidebar }) => {
             }}
             className="menu-icon"
           />
-          <img src={assets.logo} className="logo" />
+          <Link to='/'>
+            <img src={assets.logo} className="logo" />
+          </Link>
         </div>
         <div className="nav-middle flex-div">
           <div className="search-box flex-div">

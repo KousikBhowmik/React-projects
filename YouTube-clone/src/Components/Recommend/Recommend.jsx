@@ -1,100 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import "./Recommend.css";
-import assets from '../../Assets/assets.js';
+import { API_KEY } from "../../data.js";
+import valueConvert from "../../functions.js";
+import { Link } from "react-router-dom";
 
-const Recommend = () => {
+const Recommend = ({ categoryId }) => {
+  const [apiData, setApiData] = useState([]);
+
+  const fetchData = async () => {
+    const relatadedVidoURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=45&regionCode=IN&videoCategoryId=${categoryId}&key=${API_KEY}`;
+
+    await fetch(relatadedVidoURL)
+      .then((res) => res.json())
+      .then((data) => setApiData(data.items))
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="recommended">
-      <div className="side-video-list">
-        <img src={assets.thumbnail1} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-          
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail2} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
+      {apiData.map((item, index) => (
+        <Link to={`/video/${item.snippet.categoryId}/${item.id}`} key={index} className="side-video-list">
+          <img src={item.snippet.thumbnails.default.url} />
+          <div className="vid-info">
+            <h4>{item.snippet.title}</h4>
+            <p>{item.snippet.channelTitle}</p>
 
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail3} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail4} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail5} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail6} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail7} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
-      <div className="side-video-list">
-        <img src={assets.thumbnail8} />
-        <div className="vid-info">
-          <h4>
-            Best channel to lean coding that help you to be a web developer
-          </h4>
-          <p>Greatstack</p>
-          <p>199k views</p>
-
-        </div>
-      </div>
+            <p>{valueConvert(item.statistics.viewCount)} views</p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
-}
+};
 
-export default Recommend
+export default Recommend;

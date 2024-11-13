@@ -29,3 +29,9 @@
 .card p{
     font-size: 14px;
 }
+
+@media (max-width:900px) {
+    .large-container, .container{
+        padding: 0 5%;
+    }
+}
